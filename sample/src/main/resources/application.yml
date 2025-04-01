@@ -1,0 +1,41 @@
+# SpringBoot Configuration
+server:
+    port: 8080
+
+spring:
+    profiles:
+        active: dev
+    application:
+        name: sample
+    config:
+        import:
+            - nacos:${spring.cloud.nacos.config.prefix}.${spring.cloud.nacos.config.file-extension}?refreshEnabled=true
+            - nacos:${spring.cloud.nacos.config.prefix}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}?refreshEnabled=true
+            - nacos:${spring.cloud.nacos.config.prefix}?refreshEnabled=true
+    cloud:
+        nacos:
+            username: nacos
+            password: 5c92cKZ
+            server-addr: 8.137.115.145:8848
+            config:
+                enabled: true
+                namespace: 7144cc92-025b-40df-9942-8214edd9f040
+                file-extension: yaml
+                prefix: sample
+            discovery:
+                namespace: 7144cc92-025b-40df-9942-8214edd9f040
+                register-enabled: true
+
+management:
+    endpoint:
+        health:
+            show-details: always
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+
+logging:
+    level:
+        com.alibaba.cloud.nacos.configdata: debug
+        com.alibaba.cloud.nacos.config: debug
